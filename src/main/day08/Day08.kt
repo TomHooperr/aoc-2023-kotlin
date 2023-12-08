@@ -73,8 +73,8 @@ fun part2(instructions: String, nodesPos: List<String>, nodeMap: Map<String, Pai
         }
     }
 
-    // Find the LCM of all the steps to reach for each Z
-    // This is the lowest number of steps for all the nodes to reach Z at the same time
+    // Find the LCM of the steps to reach Z from each start node
+    // This is the least number of steps for all the nodes to reach Z at the same time
     val minSteps = lcm(stepsToReachZFromEachStartNode)
 
     println("Part 2: $minSteps")
