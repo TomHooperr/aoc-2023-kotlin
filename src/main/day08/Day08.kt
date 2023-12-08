@@ -43,10 +43,10 @@ fun part1(instructions: String, nodeMap: Map<String, Pair<String, String>>) {
     println("Part 1: $stepCount")
 }
 
-fun part2(instructions: String, nodesPos: List<String>, nodeMap: Map<String, Pair<String, String>>) {
-    val stepsToReachZFromEachStartNode = mutableListOf<Long>()
+fun part2(instructions: String, startPos: List<String>, nodeMap: Map<String, Pair<String, String>>) {
+    val stepsToReachZFromEachStartPos = mutableMapOf<Int, Long>()
     var stepCount = 0L
-    val newNodePos = nodesPos.map { it }.toMutableList()
+    val currentPos = startPos.toMutableList()
 
     var allReachedZ = false
     while (!allReachedZ) {
@@ -56,26 +56,25 @@ fun part2(instructions: String, nodesPos: List<String>, nodeMap: Map<String, Pai
             }
             stepCount++
 
-            for (item in newNodePos.withIndex()) {
-                val node = nodeMap[item.value]!!.run { if (inst == 'L') first else second }
+            for (pos in currentPos.withIndex()) {
+                val node = nodeMap[pos.value]!!.run { if (inst == 'L') first else second }
 
                 if (node.endsWith('Z')) {
-                    stepsToReachZFromEachStartNode.add(stepCount)
+                    stepsToReachZFromEachStartPos[pos.index]=stepCount
 
-                    if (stepsToReachZFromEachStartNode.size == newNodePos.size) {
+                    if (stepsToReachZFromEachStartPos.size == currentPos.size) {
                         // All nodes have reached Z
                         allReachedZ = true
                         break
                     }
                 }
-                newNodePos[item.index] = node
+                currentPos[pos.index] = node
             }
         }
     }
-
     // Find the LCM of the steps to reach Z from each start node
     // This is the least number of steps for all the nodes to reach Z at the same time
-    val minSteps = lcm(stepsToReachZFromEachStartNode)
+    val minSteps = lcm(stepsToReachZFromEachStartPos.values)
 
     println("Part 2: $minSteps")
 }
