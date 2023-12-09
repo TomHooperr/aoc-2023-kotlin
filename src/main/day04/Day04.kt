@@ -41,10 +41,11 @@ fun part2(input: List<ScratchCard>): Int {
         scratch.filter { num ->
             num in winning
         }.let {
-            for (i in 1 .. it.size)
+            for (i in 1 .. it.size) {
                 if (card.id + i in cardCopies) {
                     // Copy current copies to the following cards
                     cardCopies[card.id + i] = cardCopies[card.id + i]!!.plus(cardCopies[card.id]!!)
+                }
             }
         }
     }
