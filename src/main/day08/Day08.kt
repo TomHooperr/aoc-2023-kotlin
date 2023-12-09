@@ -31,8 +31,7 @@ fun part1(instructions: String, nodeMap: Map<String, Pair<String, String>>) {
     while (nodeCurr != nodeEnd) {
         for (inst in instructions) {
             stepCount++
-            val node = nodeMap[nodeCurr]!!
-            nodeCurr = if (inst == 'L') node.first else node.second
+            nodeCurr = nodeMap[nodeCurr]!!.run { if (inst == 'L') first else second }
 
             if (nodeCurr == nodeEnd) {
                 break
