@@ -8,30 +8,16 @@ fun main() {
 
     val galaxies = input.mapIndexed{ row, line ->
         line.mapIndexed { col, c ->
-            if (c == '#') {
-                Pair(row, col)
-            } else {
-                null
-            }
+            if (c == '#') Pair(row, col) else null
         }.filterNotNull()
     }.flatten().toSet()
 
     val emptyRows = input.mapIndexed { row, line ->
-        if (!line.contains('#')) {
-            row
-        }
-        else {
-            null
-        }
+        if (!line.contains('#')) row else null
     }.filterNotNull().toSet()
 
     val emptyCols = input[0].mapIndexed { col, _ ->
-        if (!searchCol(col, input)) {
-            col
-        }
-        else {
-            null
-        }
+        if (!searchCol(col, input)) col else null
     }.filterNotNull().toSet()
 
     val galaxyPairs = findGalaxyPairs(galaxies)
@@ -77,13 +63,9 @@ fun findGalaxyPairs(galaxies: Set<Pair<Int, Int>>): MutableList<GalaxyPair> {
     val galaxyPairs = mutableListOf<GalaxyPair>()
     galaxies.map { galaxy ->
         galaxies.filter { it.first >= galaxy.first }.forEach { other ->
-            if (galaxy == other || galaxyPairs.contains(GalaxyPair(galaxy, other)) || galaxyPairs.contains(
-                    GalaxyPair(
-                        other,
-                        galaxy
-                    )
-                )
-            ) {
+            if (galaxy == other
+                || galaxyPairs.contains(GalaxyPair(galaxy, other))
+                || galaxyPairs.contains(GalaxyPair(other, galaxy))) {
                 // do nothing
             } else {
                 galaxyPairs.add(GalaxyPair(galaxy, other))
